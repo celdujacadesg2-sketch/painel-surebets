@@ -5,7 +5,7 @@ const axios = require('axios');
 // Configurações
 const TELEGRAM_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const TELEGRAM_GROUP_ID = process.env.TELEGRAM_GROUP_ID;
-const API_URL = process.env.API_URL || 'http://localhost:3002/api/signals/create';
+const API_URL = process.env.API_URL || 'http://localhost:3002';
 const API_SECRET = process.env.API_SECRET || 'sua-chave-api-secreta-para-enviar-sinais';
 
 if (!TELEGRAM_TOKEN) {
@@ -219,7 +219,7 @@ async function enviarSinal(signal) {
     console.log('✨ Enviando sinal para API...');
     
     await axios.post(
-      API_URL,
+      `${API_URL}/api/signals/create`,
       {
         sport: signal.sport,
         event: signal.event,

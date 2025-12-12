@@ -12,8 +12,7 @@
     "postinstall": "prisma generate",
     "setup": "node setup.js",
     "server": "node server.js",
-    "seed": "ts-node prisma/seed.ts",
-    "vercel-build": "prisma generate && prisma db push --accept-data-loss && next build"
+    "seed": "ts-node prisma/seed.ts"
   },
   "dependencies": {
     "@prisma/client": "^5.19.0",

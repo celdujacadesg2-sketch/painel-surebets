@@ -210,8 +210,8 @@ export default function SignalCard({ signal }: SignalCardProps) {
                   const hour = eventDate.getHours().toString().padStart(2, '0');
                   const minute = eventDate.getMinutes().toString().padStart(2, '0');
                   return (
-                    <span className="px-3 py-1.5 bg-gradient-to-r from-orange-500/20 to-red-500/20 text-orange-300 text-xs font-bold rounded-full border border-orange-500/30 shadow-lg shadow-orange-500/20">
-                      📅 {day}/{month} às {hour}:{minute}
+                    <span className="px-2 py-1 bg-gradient-to-r from-orange-500/20 to-red-500/20 text-orange-300 text-xs font-semibold rounded-full border border-orange-500/30">
+                      📅 {day}/{month} {hour}:{minute}
                     </span>
                   );
                 })()}
@@ -221,7 +221,7 @@ export default function SignalCard({ signal }: SignalCardProps) {
                 </span>
               </div>
               
-              <h3 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-300 mb-3 tracking-tight leading-tight">
+              <h3 className="text-lg font-bold text-white mb-2 leading-tight">
                 {signal.event}
               </h3>
               
@@ -233,16 +233,11 @@ export default function SignalCard({ signal }: SignalCardProps) {
                 
                 if (hasDifferentTimes) {
                   return (
-                    <div className="mb-3 px-4 py-3 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border-2 border-yellow-400/50 rounded-xl">
+                    <div className="mb-2 px-3 py-2 bg-yellow-500/10 border border-yellow-400/30 rounded-lg">
                       <div className="flex items-center gap-2">
-                        <span className="text-2xl">⚠️</span>
-                        <div className="flex-1">
-                          <div className="text-yellow-300 font-black text-sm mb-1">
-                            HORÁRIOS DIFERENTES - CONFIRA ANTES DE APOSTAR!
-                          </div>
-                          <div className="text-yellow-200 text-xs font-semibold">
-                            Casa 1: {times[0]} | Casa 2: {times[1]}
-                          </div>
+                        <span className="text-lg">⚠️</span>
+                        <div className="flex-1 text-yellow-300 text-xs font-semibold">
+                          Horários diferentes: {times[0]} | {times[1]}
                         </div>
                       </div>
                     </div>
@@ -251,14 +246,14 @@ export default function SignalCard({ signal }: SignalCardProps) {
                 return null;
               })()}
               
-              <div className="px-4 py-2 bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-pink-300 text-sm font-bold rounded-lg border border-pink-500/30 shadow-lg shadow-pink-500/20 inline-block">
+              <div className="px-2 py-1 bg-purple-500/10 text-pink-300 text-xs font-semibold rounded border border-pink-500/20 inline-block">
                 🏆 {signal.market}
               </div>
             </div>
           </div>
 
           {/* Odds Display - Mostrar todas as apostas com seus mercados */}
-          <div className="space-y-2">
+          <div className="space-y-1.5">
             {(() => {
               const odds = typeof signal.odds === 'string' ? JSON.parse(signal.odds) : signal.odds;
               const bookmakers = typeof signal.bookmakers === 'string' ? JSON.parse(signal.bookmakers) : signal.bookmakers;
@@ -267,26 +262,24 @@ export default function SignalCard({ signal }: SignalCardProps) {
                 const bookmaker = bookmakers[index] || { name: `Casa ${index + 1}` };
                 
                 return (
-                  <div key={index} className="flex items-center justify-between gap-4 px-5 py-4 bg-gradient-to-r from-gray-700/40 to-gray-800/40 rounded-xl border border-gray-600/50 hover:border-primary-500/50 transition-all duration-200 hover:shadow-lg">
+                  <div key={index} className="flex items-center justify-between gap-3 px-3 py-2 bg-gray-700/30 rounded-lg border border-gray-600/40 hover:border-primary-500/40 transition-all">
                     <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
-                        <div className="text-base font-black text-white">
+                      <div className="flex items-center gap-2 mb-1">
+                        <div className="text-sm font-bold text-white">
                           {bookmaker.name || bookmaker}
                         </div>
                         {odd.eventTime && (
-                          <span className="px-2 py-0.5 bg-orange-500/20 text-orange-300 text-xs font-bold rounded border border-orange-400/30">
-                            🕒 {odd.eventTime}
+                          <span className="px-1.5 py-0.5 bg-orange-500/20 text-orange-300 text-xs rounded">
+                            {odd.eventTime}
                           </span>
                         )}
                       </div>
-                      <div className="text-sm text-white leading-relaxed font-bold">
+                      <div className="text-xs text-gray-300">
                         {odd.selection || odd.name || signal.market}
                       </div>
                     </div>
-                    <div className="text-right">
-                      <div className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-blue-400">
-                        @{odd.value || odd.odd || odd}
-                      </div>
+                    <div className="text-lg font-bold text-primary-400">
+                      @{odd.value || odd.odd || odd}
                     </div>
                   </div>
                 );
@@ -296,33 +289,33 @@ export default function SignalCard({ signal }: SignalCardProps) {
         </div>
 
         {/* Right Section - ROI & Actions */}
-        <div className="flex flex-row lg:flex-col items-center gap-4">
-          <div className="bg-gradient-to-br from-green-500/20 via-emerald-500/20 to-green-600/20 border-2 border-green-400/50 rounded-2xl px-6 py-4 text-center shadow-xl shadow-green-500/20">
-            <div className="flex items-center justify-center gap-1 text-green-400 mb-1">
-              <TrendingUp size={18} />
-              <span className="text-xs font-bold uppercase tracking-wider">ROI</span>
+        <div className="flex flex-row lg:flex-col items-center gap-3">
+          <div className="bg-gradient-to-br from-green-500/20 to-green-600/20 border border-green-400/40 rounded-xl px-4 py-3 text-center">
+            <div className="flex items-center justify-center gap-1 text-green-400 mb-0.5">
+              <TrendingUp size={14} />
+              <span className="text-xs font-semibold">ROI</span>
             </div>
-            <div className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-400">
+            <div className="text-2xl font-bold text-green-400">
               {formatROI(signal.roi)}
             </div>
           </div>
 
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-1.5">
             <button
               onClick={openCalculator}
-              className="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold rounded-xl transition-all duration-200 flex items-center justify-center gap-2 whitespace-nowrap shadow-lg shadow-purple-500/30 hover:shadow-xl hover:shadow-purple-500/40"
+              className="px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white text-sm font-semibold rounded-lg transition-all flex items-center justify-center gap-2 whitespace-nowrap"
             >
-              <Calculator size={18} />
+              <Calculator size={16} />
               Calculadora
             </button>
 
             <div className="relative">
               <button
                 onClick={openBookmakers}
-                className="w-full px-6 py-3 bg-gradient-to-r from-primary-600 to-blue-600 hover:from-primary-700 hover:to-blue-700 text-white font-bold rounded-xl transition-all duration-200 flex items-center justify-center gap-2 whitespace-nowrap shadow-lg shadow-primary-500/30 hover:shadow-xl hover:shadow-primary-500/40"
+                className="w-full px-4 py-2 bg-gradient-to-r from-primary-600 to-blue-600 hover:from-primary-700 hover:to-blue-700 text-white text-sm font-semibold rounded-lg transition-all flex items-center justify-center gap-2 whitespace-nowrap"
               >
-                <ExternalLink size={18} />
-                Abrir Casas ({(() => {
+                <ExternalLink size={16} />
+                Abrir ({(() => {
                   const bookmakers = typeof signal.bookmakers === 'string' 
                     ? JSON.parse(signal.bookmakers) 
                     : signal.bookmakers;
@@ -333,10 +326,10 @@ export default function SignalCard({ signal }: SignalCardProps) {
               {/* Botão de menu de posições */}
               <button
                 onClick={() => setShowPositionMenu(!showPositionMenu)}
-                className="absolute -right-2 -top-2 p-2 bg-gray-700 hover:bg-gray-600 text-white rounded-full transition-all duration-200 border border-gray-600 shadow-lg hover:shadow-xl"
+                className="absolute -right-1 -top-1 p-1.5 bg-gray-700 hover:bg-gray-600 text-white rounded-full transition-all border border-gray-600"
                 title="Configurar posições das janelas"
               >
-                <Save size={16} />
+                <Save size={12} />
               </button>
 
               {/* Menu dropdown */}

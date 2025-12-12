@@ -206,6 +206,21 @@ export default function DashboardPage() {
   return (
     <DashboardLayout>
       <div className="space-y-6">
+        {/* Aviso de Popup */}
+        <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-4">
+          <div className="flex items-start gap-3">
+            <span className="text-2xl">⚠️</span>
+            <div className="flex-1">
+              <h3 className="text-yellow-500 font-semibold text-sm mb-1">
+                Permita popups para melhor experiência
+              </h3>
+              <p className="text-yellow-200/80 text-sm">
+                Para que os links das casas de apostas abram corretamente, permita popups neste site nas configurações do seu navegador.
+              </p>
+            </div>
+          </div>
+        </div>
+
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold text-white">Sinais em Tempo Real</h1>

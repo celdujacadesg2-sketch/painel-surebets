@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { formatROI, formatTimeAgo } from '@/lib/utils';
-import { ExternalLink, Clock, TrendingUp, Calculator } from 'lucide-react';
+import { ExternalLink, Clock, TrendingUp, Calculator, X } from 'lucide-react';
 
 interface Signal {
   id: string;
@@ -19,9 +19,10 @@ interface Signal {
 
 interface SignalCardProps {
   signal: Signal;
+  onHide: () => void;
 }
 
-export default function SignalCardCompact({ signal }: SignalCardProps) {
+export default function SignalCardCompact({ signal, onHide }: SignalCardProps) {
   const [timeAgo, setTimeAgo] = useState('');
 
   useEffect(() => {
@@ -68,7 +69,20 @@ export default function SignalCardCompact({ signal }: SignalCardProps) {
   const bookmakers = typeof signal.bookmakers === 'string' ? JSON.parse(signal.bookmakers) : signal.bookmakers;
 
   return (
-    <div className="bg-gradient-to-br from-gray-800/60 to-gray-900/60 backdrop-blur-sm rounded-lg p-3 border border-gray-700/50 hover:border-primary-500/50 transition-all">
+    <div className="bg-gradient-to-br from-gray-800/60 to-gray-900/60 backdrop-blur-sm rounded-lg p-3 border border-gray-700/50 hover:border-primary-500/50 transition-all relative">
+      {/* Botão de Ocultar */}
+      <button
+        onClick={() => {
+          if (confirm('Ocultar este sinal? Ele não aparecerá mais na lista.')) {
+            onHide();
+          }
+        }}
+        className="absolute top-2 right-2 p-1.5 bg-red-500/20 hover:bg-red-500/40 text-red-400 rounded transition z-10"
+        title="Ocultar sinal"
+      >
+        <X size={14} />
+      </button>
+
       <div className="flex gap-3">
         {/* Main Content */}
         <div className="flex-1 min-w-0">

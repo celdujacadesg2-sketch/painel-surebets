@@ -18,6 +18,21 @@ export default function DashboardPage() {
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [soundType, setSoundType] = useState<'beep' | 'bell' | 'chime'>('beep');
   const [showSoundMenu, setShowSoundMenu] = useState(false);
+  const [hiddenSignals, setHiddenSignals] = useState<string[]>([]);
+
+  // Load hidden signals from localStorage
+  useEffect(() => {
+    const hidden = localStorage.getItem('hidden_signals');
+    if (hidden) {
+      setHiddenSignals(JSON.parse(hidden));
+    }
+  }, []);
+
+  const hideSignal = (signalId: string) => {
+    const newHidden = [...hiddenSignals, signalId];
+    setHiddenSignals(newHidden);
+    localStorage.setItem('hidden_signals', JSON.stringify(newHidden));
+  };
 
   const [filters, setFilters] = useState({
     sport: '',
@@ -187,7 +202,9 @@ export default function DashboardPage() {
   }
 
   // Apply filters
-  const filteredSignals = signals.filter(signal => {
+  const filteredSignals = signals
+    .filter(signal => !hiddenSignals.includes(signal.id)) // Filter hidden signals
+    .filter(signal => {
     if (filters.sport && signal.sport !== filters.sport) return false;
     if (filters.market && signal.market !== filters.market) return false;
     if (filters.minROI && signal.roi < parseFloat(filters.minROI)) return false;
@@ -206,16 +223,17 @@ export default function DashboardPage() {
   return (
     <DashboardLayout>
       <div className="space-y-6">
-        {/* Aviso de Popup */}
-        <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-4">
+        {/* Aviso de Popup - Mais Visível */}
+        <div className="bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border-2 border-yellow-400 rounded-xl p-4 shadow-lg">
           <div className="flex items-start gap-3">
-            <span className="text-2xl">⚠️</span>
+            <span className="text-3xl">⚠️</span>
             <div className="flex-1">
-              <h3 className="text-yellow-500 font-semibold text-sm mb-1">
-                Permita popups para melhor experiência
+              <h3 className="text-yellow-300 font-bold text-base mb-1.5">
+                ⚡ IMPORTANTE: Permita popups neste site
               </h3>
-              <p className="text-yellow-200/80 text-sm">
-                Para que os links das casas de apostas abram corretamente, permita popups neste site nas configurações do seu navegador.
+              <p className="text-yellow-100 text-sm leading-relaxed">
+                Para que os links das casas de apostas abram automaticamente, você precisa permitir popups nas configurações do navegador. 
+                Clique no ícone 🚫 ou <span className="font-semibold">⚙️</span> ao lado da barra de endereço.
               </p>
             </div>
           </div>
@@ -408,7 +426,7 @@ export default function DashboardPage() {
         ) : (
           <div className="grid gap-4">
             {filteredSignals.map(signal => (
-              <SignalCardCompact key={signal.id} signal={signal} />
+              <SignalCardCompact key={signal.id} signal={signal} onHide={() => hideSignal(signal.id)} />
             ))}
           </div>
         )}

@@ -1,0 +1,14 @@
+{
+  "name": "surebet-telegram-bot",
+  "version": "1.0.0",
+  "description": "Bot do Telegram para Surebets",
+  "main": "telegram-bot-new.js",
+  "scripts": {
+    "start": "node telegram-bot-new.js"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "node-telegram-bot-api": "^0.66.0",
+    "axios": "^1.13.2"
+  }
+}

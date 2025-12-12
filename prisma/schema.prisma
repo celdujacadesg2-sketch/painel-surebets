@@ -1,0 +1,79 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+  // Para produção com PostgreSQL (Supabase), comente as linhas acima e descomente abaixo:
+  // provider = "postgresql"
+  // url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      String   @default("USER")
+  
+  // Trial & Subscription
+  trialEndsAt       DateTime?
+  subscriptionEndsAt DateTime?
+  isBlocked         Boolean   @default(false)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  savedBets SavedBet[]
+  
+  @@index([email])
+}
+
+model Signal {
+  id        String   @id @default(uuid())
+  sport     String
+  event     String
+  eventDate DateTime? // Data/hora do evento
+  market    String
+  roi       Float
+  odds      String   // JSON string
+  bookmakers String  // JSON string
+  
+  createdAt DateTime @default(now())
+  expiresAt DateTime // createdAt + 2 hours
+  
+  @@index([createdAt])
+  @@index([expiresAt])
+  @@index([sport])
+}
+
+model SavedBet {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  sport       String
+  event       String
+  market      String
+  odds        String   // JSON with individual bet details
+  stake       Float    // Total stake
+  bookmaker   String
+  notes       String?
+  
+  // Result tracking
+  status      String   @default("pending") // pending, won, lost, void
+  result      String?  // JSON with result for each bet
+  actualProfit Float?  // Real profit/loss
+  settledAt   DateTime?
+  
+  createdAt   DateTime @default(now())
+  
+  @@index([userId])
+  @@index([createdAt])
+  @@index([status])
+  @@index([settledAt])
+}

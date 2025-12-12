@@ -2,7 +2,7 @@
 nixPkgs = ['nodejs_18']
 
 [phases.install]
-cmds = ['npm install --omit=dev --ignore-scripts']
+cmds = ['npm install --only=production dotenv node-telegram-bot-api axios --ignore-scripts']
 
 [start]
 cmd = 'node telegram-bot-new.js'

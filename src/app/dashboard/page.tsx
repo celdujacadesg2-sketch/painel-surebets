@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/components/providers/AuthProvider';
 import DashboardLayout from '@/components/layouts/DashboardLayout';
-import SignalCardCompact from '@/components/dashboard/SignalCardCompact';
+import SignalCard from '@/components/dashboard/SignalCard';
 import SignalFilters from '@/components/dashboard/SignalFilters';
 import AccessDenied from '@/components/dashboard/AccessDenied';
 import DailyStats from '@/components/dashboard/DailyStats';
@@ -426,7 +426,7 @@ export default function DashboardPage() {
         ) : (
           <div className="grid gap-4">
             {filteredSignals.map(signal => (
-              <SignalCardCompact key={signal.id} signal={signal} onHide={() => hideSignal(signal.id)} />
+              <SignalCard key={signal.id} signal={signal} onHide={() => hideSignal(signal.id)} />
             ))}
           </div>
         )}

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { formatROI, formatTimeAgo } from '@/lib/utils';
-import { ExternalLink, Clock, TrendingUp, Calculator, Save, RotateCcw } from 'lucide-react';
+import { ExternalLink, Clock, TrendingUp, Calculator, Save, RotateCcw, X } from 'lucide-react';
 
 interface Signal {
   id: string;
@@ -19,11 +19,12 @@ interface Signal {
 
 interface SignalCardProps {
   signal: Signal;
+  onHide?: (signalId: string) => void;
 }
 
 const WINDOW_POSITIONS_KEY = 'bookmaker_window_positions';
 
-export default function SignalCard({ signal }: SignalCardProps) {
+export default function SignalCard({ signal, onHide }: SignalCardProps) {
   const [timeAgo, setTimeAgo] = useState('');
   const [showPositionMenu, setShowPositionMenu] = useState(false);
   const [hasSavedPositions, setHasSavedPositions] = useState(false);
@@ -193,14 +194,25 @@ export default function SignalCard({ signal }: SignalCardProps) {
   };
 
   return (
-    <div className="bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur border border-gray-700/50 rounded-2xl p-6 hover:border-primary-500/50 hover:shadow-xl hover:shadow-primary-500/10 transition-all duration-300">
-      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+    <div className="relative bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur border border-gray-700/50 rounded-xl p-3 hover:border-primary-500/50 hover:shadow-xl hover:shadow-primary-500/10 transition-all duration-300">
+      {/* Botão X para esconder */}
+      {onHide && (
+        <button
+          onClick={() => onHide(signal.id)}
+          className="absolute -top-2 -right-2 p-1.5 bg-red-600 hover:bg-red-700 text-white rounded-full transition-all shadow-lg z-10"
+          title="Esconder este sinal"
+        >
+          <X size={14} />
+        </button>
+      )}
+      
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
         {/* Left Section - Main Info */}
-        <div className="flex-1 space-y-3">
-          <div className="flex items-start gap-3">
+        <div className="flex-1 space-y-2">
+          <div className="flex items-start gap-2">
             <div className="flex-1">
-              <div className="flex items-center gap-2 flex-wrap mb-3">
-                <span className="px-3 py-1.5 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 text-cyan-400 text-xs font-semibold rounded-full border border-cyan-500/30 shadow-lg shadow-cyan-500/20">
+              <div className="flex items-center gap-2 flex-wrap mb-2">
+                <span className="px-2 py-1 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 text-cyan-400 text-xs font-semibold rounded-full border border-cyan-500/30 shadow-lg shadow-cyan-500/20">
                   {signal.sport}
                 </span>
                 {signal.eventDate && (() => {
@@ -210,7 +222,7 @@ export default function SignalCard({ signal }: SignalCardProps) {
                   const hour = eventDate.getHours().toString().padStart(2, '0');
                   const minute = eventDate.getMinutes().toString().padStart(2, '0');
                   return (
-                    <span className="px-2 py-1 bg-gradient-to-r from-orange-500/20 to-red-500/20 text-orange-300 text-xs font-semibold rounded-full border border-orange-500/30">
+                    <span className="px-2 py-0.5 bg-gradient-to-r from-orange-500/20 to-red-500/20 text-orange-300 text-xs font-semibold rounded-full border border-orange-500/30">
                       📅 {day}/{month} {hour}:{minute}
                     </span>
                   );
@@ -221,7 +233,7 @@ export default function SignalCard({ signal }: SignalCardProps) {
                 </span>
               </div>
               
-              <h3 className="text-lg font-bold text-white mb-2 leading-tight">
+              <h3 className="text-sm font-bold text-white mb-1.5 leading-tight">
                 {signal.event}
               </h3>
               
@@ -233,9 +245,9 @@ export default function SignalCard({ signal }: SignalCardProps) {
                 
                 if (hasDifferentTimes) {
                   return (
-                    <div className="mb-2 px-3 py-2 bg-yellow-500/10 border border-yellow-400/30 rounded-lg">
+                    <div className="mb-1.5 px-2 py-1.5 bg-yellow-500/10 border border-yellow-400/30 rounded-lg">
                       <div className="flex items-center gap-2">
-                        <span className="text-lg">⚠️</span>
+                        <span className="text-sm">⚠️</span>
                         <div className="flex-1 text-yellow-300 text-xs font-semibold">
                           Horários diferentes: {times[0]} | {times[1]}
                         </div>
@@ -246,14 +258,14 @@ export default function SignalCard({ signal }: SignalCardProps) {
                 return null;
               })()}
               
-              <div className="px-2 py-1 bg-purple-500/10 text-pink-300 text-xs font-semibold rounded border border-pink-500/20 inline-block">
+              <div className="px-2 py-0.5 bg-purple-500/10 text-pink-300 text-xs font-semibold rounded border border-pink-500/20 inline-block">
                 🏆 {signal.market}
               </div>
             </div>
           </div>
 
           {/* Odds Display - Mostrar todas as apostas com seus mercados */}
-          <div className="space-y-1.5">
+          <div className="space-y-1">
             {(() => {
               const odds = typeof signal.odds === 'string' ? JSON.parse(signal.odds) : signal.odds;
               const bookmakers = typeof signal.bookmakers === 'string' ? JSON.parse(signal.bookmakers) : signal.bookmakers;
@@ -262,10 +274,10 @@ export default function SignalCard({ signal }: SignalCardProps) {
                 const bookmaker = bookmakers[index] || { name: `Casa ${index + 1}` };
                 
                 return (
-                  <div key={index} className="flex items-center justify-between gap-3 px-3 py-2 bg-gray-700/30 rounded-lg border border-gray-600/40 hover:border-primary-500/40 transition-all">
+                  <div key={index} className="flex items-center justify-between gap-2 px-2 py-1.5 bg-gray-700/30 rounded-lg border border-gray-600/40 hover:border-primary-500/40 transition-all">
                     <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-1">
-                        <div className="text-sm font-bold text-white">
+                      <div className="flex items-center gap-2 mb-0.5">
+                        <div className="text-xs font-bold text-white">
                           {bookmaker.name || bookmaker}
                         </div>
                         {odd.eventTime && (
@@ -278,7 +290,7 @@ export default function SignalCard({ signal }: SignalCardProps) {
                         {odd.selection || odd.name || signal.market}
                       </div>
                     </div>
-                    <div className="text-lg font-bold text-primary-400">
+                    <div className="text-sm font-bold text-primary-400">
                       @{odd.value || odd.odd || odd}
                     </div>
                   </div>
@@ -289,32 +301,32 @@ export default function SignalCard({ signal }: SignalCardProps) {
         </div>
 
         {/* Right Section - ROI & Actions */}
-        <div className="flex flex-row lg:flex-col items-center gap-3">
-          <div className="bg-gradient-to-br from-green-500/20 to-green-600/20 border border-green-400/40 rounded-xl px-4 py-3 text-center">
+        <div className="flex flex-row lg:flex-col items-center gap-2">
+          <div className="bg-gradient-to-br from-green-500/20 to-green-600/20 border border-green-400/40 rounded-xl px-3 py-2 text-center">
             <div className="flex items-center justify-center gap-1 text-green-400 mb-0.5">
-              <TrendingUp size={14} />
+              <TrendingUp size={12} />
               <span className="text-xs font-semibold">ROI</span>
             </div>
-            <div className="text-2xl font-bold text-green-400">
+            <div className="text-xl font-bold text-green-400">
               {formatROI(signal.roi)}
             </div>
           </div>
 
-          <div className="flex flex-col gap-1.5">
+          <div className="flex flex-col gap-1">
             <button
               onClick={openCalculator}
-              className="px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white text-sm font-semibold rounded-lg transition-all flex items-center justify-center gap-2 whitespace-nowrap"
+              className="px-3 py-1.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white text-xs font-semibold rounded-lg transition-all flex items-center justify-center gap-2 whitespace-nowrap"
             >
-              <Calculator size={16} />
+              <Calculator size={14} />
               Calculadora
             </button>
 
             <div className="relative">
               <button
                 onClick={openBookmakers}
-                className="w-full px-4 py-2 bg-gradient-to-r from-primary-600 to-blue-600 hover:from-primary-700 hover:to-blue-700 text-white text-sm font-semibold rounded-lg transition-all flex items-center justify-center gap-2 whitespace-nowrap"
+                className="w-full px-3 py-1.5 bg-gradient-to-r from-primary-600 to-blue-600 hover:from-primary-700 hover:to-blue-700 text-white text-xs font-semibold rounded-lg transition-all flex items-center justify-center gap-2 whitespace-nowrap"
               >
-                <ExternalLink size={16} />
+                <ExternalLink size={14} />
                 Abrir ({(() => {
                   const bookmakers = typeof signal.bookmakers === 'string' 
                     ? JSON.parse(signal.bookmakers) 

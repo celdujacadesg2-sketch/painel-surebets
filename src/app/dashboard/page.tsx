@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/components/providers/AuthProvider';
+import BotaoRenovarWhatsapp from '@/components/BotaoRenovarWhatsapp';
 import DashboardLayout from '@/components/layouts/DashboardLayout';
 import SignalCard from '@/components/dashboard/SignalCard';
 import SignalFilters from '@/components/dashboard/SignalFilters';
@@ -250,7 +251,7 @@ export default function DashboardPage() {
     <DashboardLayout>
       <div className="space-y-6">
         {/* Botão fixo de Assinar/Renovar */}
-        <div className="flex justify-end">
+        <div className="flex flex-col items-end gap-2">
           <button
             className="px-6 py-2 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-lg transition disabled:opacity-60"
             onClick={handleCheckout}
@@ -258,6 +259,7 @@ export default function DashboardPage() {
           >
             {payLoading ? 'Gerando pagamento...' : 'Assinar / Renovar - R$ 97/mês'}
           </button>
+          <BotaoRenovarWhatsapp />
         </div>
         {payError && <div className="text-right text-red-400 text-sm mt-1">{payError}</div>}
         {/* Aviso de Popup - Mais Visível */}

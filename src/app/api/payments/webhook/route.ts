@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { calculateNewSubscriptionEnd } from '@/lib/subscription';
 import crypto from 'crypto';
 
 /**
@@ -82,6 +83,7 @@ async function handlePagBankWebhook(data: any, rawBody: string) {
     const statusMatch = transactionData.match(/<status>(\d+)<\/status>/);
     const referenceMatch = transactionData.match(/<reference>(.*?)<\/reference>/);
     const codeMatch = transactionData.match(/<code>(.*?)<\/code>/);
+    const grossAmountMatch = transactionData.match(/<grossAmount>([\d.]+)<\/grossAmount>/);
     
     if (!statusMatch || !referenceMatch) {
       console.error('❌ Dados inválidos na resposta do PagBank');
@@ -91,6 +93,7 @@ async function handlePagBankWebhook(data: any, rawBody: string) {
     const status = parseInt(statusMatch[1]);
     const reference = referenceMatch[1]; // userId enviado na criação do pagamento
     const paymentCode = codeMatch ? codeMatch[1] : notificationCode;
+    const amount = grossAmountMatch ? parseFloat(grossAmountMatch[1]) : 0;
 
     // Status 3 = Pagamento aprovado
     if (status === 3) {
@@ -98,7 +101,7 @@ async function handlePagBankWebhook(data: any, rawBody: string) {
         userId: reference,
         gatewayPaymentId: paymentCode,
         gateway: 'pagbank',
-        amount: 30.00, // Você pode extrair do XML
+        amount: amount,
         metadata: transactionData,
       });
     }
@@ -173,13 +176,8 @@ async function processApprovedPayment(params: {
   }
 
   // Calcular nova data de expiração da assinatura
-  const now = new Date();
-  const currentEnd = user.subscriptionEndsAt && user.subscriptionEndsAt > now 
-    ? user.subscriptionEndsAt 
-    : now;
-  
   const subscriptionDays = 30; // 30 dias por pagamento
-  const newSubscriptionEnd = new Date(currentEnd.getTime() + subscriptionDays * 24 * 60 * 60 * 1000);
+  const newSubscriptionEnd = calculateNewSubscriptionEnd(user.subscriptionEndsAt, subscriptionDays);
 
   // Criar registro de pagamento e atualizar assinatura em uma transação
   await prisma.$transaction([

@@ -72,11 +72,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Atualizar payment com o gatewayOrderId
+    // Atualizar payment com referência interna
     await prisma.payment.update({
       where: { id: payment.id },
       data: {
-        gatewayOrderId: payment.id, // Usar nosso ID como referência
+        gatewayOrderId: `INTERNAL-${payment.id}`, // Prefixo para identificar como ID interno
       },
     });
 
@@ -122,6 +122,16 @@ async function createPagBankCheckout(params: {
     ? 'https://ws.pagseguro.uol.com.br/v2/checkout'
     : 'https://ws.sandbox.pagseguro.uol.com.br/v2/checkout';
 
+  // Escapar valores para prevenir XML injection
+  const escapeXml = (unsafe: string) => {
+    return unsafe
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&apos;');
+  };
+
   // Montar XML de requisição (PagBank usa XML)
   const checkoutXml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <checkout>
@@ -131,15 +141,15 @@ async function createPagBankCheckout(params: {
   <items>
     <item>
       <id>1</id>
-      <description>${params.description}</description>
+      <description>${escapeXml(params.description)}</description>
       <amount>${params.amount.toFixed(2)}</amount>
       <quantity>1</quantity>
     </item>
   </items>
   <reference>${params.userId}</reference>
   <sender>
-    <name>${params.userName}</name>
-    <email>${params.userEmail}</email>
+    <name>${escapeXml(params.userName)}</name>
+    <email>${escapeXml(params.userEmail)}</email>
   </sender>
 </checkout>`;
 

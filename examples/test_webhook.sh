@@ -19,13 +19,16 @@ echo ""
 echo "📤 Enviando notificação de pagamento aprovado..."
 echo ""
 
+# Gerar código único
+TIMESTAMP=$(date +%s)
+
 # Webhook com notificationCode (PagBank)
 curl -X POST "$API_URL/api/payments/webhook" \
   -H "Content-Type: application/json" \
-  -d '{
-    "notificationCode": "TEST-'$(date +%s)'",
-    "notificationType": "transaction"
-  }' \
+  -d "{
+    \"notificationCode\": \"TEST-$TIMESTAMP\",
+    \"notificationType\": \"transaction\"
+  }" \
   -v
 
 echo ""

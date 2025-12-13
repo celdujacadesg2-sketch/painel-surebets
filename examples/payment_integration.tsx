@@ -26,7 +26,7 @@ export default function PaymentExample() {
 
   // Planos disponíveis
   const plans = {
-    monthly: { name: 'Mensal', days: 30, price: 29.90 },
+    monthly: { name: 'Mensal', days: 30, price: 29.90, discount: '' },
     quarterly: { name: 'Trimestral', days: 90, price: 79.90, discount: '11% OFF' },
     yearly: { name: 'Anual', days: 365, price: 299.90, discount: '17% OFF' },
   };

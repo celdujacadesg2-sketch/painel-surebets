@@ -75,3 +75,15 @@ export function getAccessStatus(user: {
   
   return { hasAccess: false, status: 'expired' };
 }
+
+export function calculateNewSubscriptionEnd(
+  currentSubscriptionEnd: Date | null,
+  daysToAdd: number
+): Date {
+  const now = new Date();
+  const baseDate = currentSubscriptionEnd && currentSubscriptionEnd > now 
+    ? currentSubscriptionEnd 
+    : now;
+  
+  return new Date(baseDate.getTime() + daysToAdd * 24 * 60 * 60 * 1000);
+}

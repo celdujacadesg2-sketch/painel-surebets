@@ -1,6 +1,8 @@
+
 import type { Metadata } from "next";
 import "./globals.css";
 import { AuthProvider } from "@/components/providers/AuthProvider";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 export const metadata: Metadata = {
   title: "Surebet SaaS - Sinais em Tempo Real",
@@ -18,6 +20,7 @@ export default function RootLayout({
         <AuthProvider>
           {children}
         </AuthProvider>
+        <WhatsAppButton />
       </body>
     </html>
   );

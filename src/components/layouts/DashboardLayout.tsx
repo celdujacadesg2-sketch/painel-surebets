@@ -1,7 +1,7 @@
 'use client';
 
 import { ReactNode } from 'react';
-import { useAuth } from '@/components/providers/AuthProvider';
+import { useAuth } from '@/components/providers/';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';

@@ -2,7 +2,7 @@
 
 
 import { Lock, AlertTriangle } from 'lucide-react';
-import { useAuth } from '@/components/providers/AuthProvider';
+import { useAuth } from '@/components/providers/';
 import { useState } from 'react';
 
 interface AccessDeniedProps {

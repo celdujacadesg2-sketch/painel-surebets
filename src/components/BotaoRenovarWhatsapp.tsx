@@ -1,5 +1,5 @@
 import React from "react";
-import { useAuth } from '@/components/providers/AuthProvider';
+import { useAuth } from '@/components/providers/';
 
 const whatsappNumber = "21998405571";
 

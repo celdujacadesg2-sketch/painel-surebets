@@ -74,3 +74,22 @@ model SavedBet {
   @@index([status])
   @@index([settledAt])
 }
+
+model Webhook {
+  id          String   @id @default(uuid())
+  name        String   // Friendly name for the webhook
+  url         String   // URL to send POST requests
+  secret      String?  // Optional secret for HMAC signature
+  isActive    Boolean  @default(true)
+  events      String[] @default(["signal.created"]) // Events to trigger webhook
+  
+  // Statistics
+  lastTriggeredAt DateTime?
+  totalCalls      Int      @default(0)
+  failedCalls     Int      @default(0)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([isActive])
+}

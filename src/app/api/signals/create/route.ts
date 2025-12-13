@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { broadcastSignal } from '@/lib/socket';
+import { triggerWebhooks } from '@/lib/webhook';
 
 export async function POST(request: NextRequest) {
   try {
@@ -44,6 +45,11 @@ export async function POST(request: NextRequest) {
 
     // Broadcast to all connected clients via WebSocket
     broadcastSignal(signal);
+
+    // Trigger webhooks asynchronously (don't wait for completion)
+    triggerWebhooks('signal.created', signal).catch(error => {
+      console.error('Webhook trigger error:', error);
+    });
 
     return NextResponse.json({ 
       success: true, 

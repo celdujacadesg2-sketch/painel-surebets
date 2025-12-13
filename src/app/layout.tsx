@@ -1,7 +1,7 @@
 
 import type { Metadata } from "next";
 import "./globals.css";
-import { AuthProvider } from "@/components/providers/AuthProvider";
+import { AuthProvider } from "../components/providers/AuthProvider";
 import WhatsAppButton from "@/components/WhatsAppButton";
 
 export const metadata: Metadata = {

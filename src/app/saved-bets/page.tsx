@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/components/providers/AuthProvider';
-import DashboardLayout from '@/components/layouts/DashboardLayout';
+import { useAuth } from '../../components/providers/AuthProvider';
+import DashboardLayout from '../../components/layouts/DashboardLayout';
 import SavedBetForm from '@/components/saved-bets/SavedBetForm';
 import SavedBetsTable from '@/components/saved-bets/SavedBetsTable';
 import DailyStats from '@/components/dashboard/DailyStats';

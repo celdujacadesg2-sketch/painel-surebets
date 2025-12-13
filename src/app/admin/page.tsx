@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/components/providers/AuthProvider';
-import DashboardLayout from '@/components/layouts/DashboardLayout';
-import UsersTable from '@/components/admin/UsersTable';
+import { useAuth } from '../../components/providers/AuthProvider';
+import DashboardLayout from '../../components/layouts/DashboardLayout';
+import UsersTable from '../../components/admin/UsersTable';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 

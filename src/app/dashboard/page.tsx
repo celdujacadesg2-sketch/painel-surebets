@@ -2,9 +2,9 @@
 
 import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/components/providers/AuthProvider';
+import { useAuth } from '../../components/providers/AuthProvider';
 import BotaoRenovarWhatsapp from '@/components/BotaoRenovarWhatsapp';
-import DashboardLayout from '@/components/layouts/DashboardLayout';
+import DashboardLayout from '../../components/layouts/DashboardLayout';
 import SignalCard from '@/components/dashboard/SignalCard';
 import SignalFilters from '@/components/dashboard/SignalFilters';
 import AccessDenied from '@/components/dashboard/AccessDenied';

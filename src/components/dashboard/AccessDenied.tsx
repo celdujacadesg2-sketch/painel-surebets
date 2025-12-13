@@ -69,14 +69,14 @@ export default function AccessDenied({ status }: AccessDeniedProps) {
             : 'Seu acesso expirou. Renove sua assinatura para continuar.'}
         </p>
         <div className="space-y-4">
-          <a
-            href={`https://wa.me/21998405571?text=Olá! Quero renovar minha assinatura do Surecapta. Meu email cadastrado é: ${user?.email || ''}`}
-            target="_self"
-            rel="noopener noreferrer"
-            className="w-full px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition text-center block"
-          >
-            Assinar Agora - R$ 99/mês
-          </a>
+            <a
+              href={`https://wa.me/21998405571?text=Olá! Quero renovar minha assinatura do Surecapta. Meu email cadastrado é: ${user?.email || ''}`}
+              target="_self"
+              rel="noopener noreferrer"
+              className="w-full px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition text-center block"
+            >
+              Assinar Agora - R$ 99/mês
+            </a>
           {error && <p className="text-red-400 text-sm mt-2">{error}</p>}
           <p className="text-sm text-gray-400">
             Acesso ilimitado a todos os sinais em tempo real

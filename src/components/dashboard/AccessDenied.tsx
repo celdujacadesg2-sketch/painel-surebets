@@ -71,7 +71,7 @@ export default function AccessDenied({ status }: AccessDeniedProps) {
         <div className="space-y-4">
           <a
             href={`https://wa.me/21998405571?text=Olá! Quero renovar minha assinatura do Surecapta. Meu email cadastrado é: ${user?.email || ''}`}
-            target="_blank"
+            target="_self"
             rel="noopener noreferrer"
             className="w-full px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition text-center block"
           >

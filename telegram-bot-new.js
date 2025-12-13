@@ -4,7 +4,9 @@ const axios = require('axios');
 
 // Configurações
 const TELEGRAM_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-const TELEGRAM_GROUP_ID = process.env.TELEGRAM_GROUP_ID;
+const TELEGRAM_GROUP_IDS = process.env.TELEGRAM_GROUP_ID
+  ? process.env.TELEGRAM_GROUP_ID.split(',').map(id => id.trim())
+  : null;
 const API_URL = process.env.API_URL || 'http://localhost:3002';
 const API_SECRET = process.env.API_SECRET || 'sua-chave-api-secreta-para-enviar-sinais';
 
@@ -17,8 +19,8 @@ const bot = new TelegramBot(TELEGRAM_TOKEN, { polling: true });
 
 console.log('🤖 Bot do Telegram iniciado e monitorando mensagens...');
 console.log(`📡 API: ${API_URL}`);
-if (TELEGRAM_GROUP_ID) {
-  console.log(`📢 Monitorando grupo: ${TELEGRAM_GROUP_ID}`);
+if (TELEGRAM_GROUP_IDS) {
+  console.log(`📢 Monitorando grupos: ${TELEGRAM_GROUP_IDS.join(', ')}`);
 }
 
 // Função para extrair informações do sinal (formato GreenSurebet EXATO)
@@ -255,8 +257,8 @@ bot.on('message', async (msg) => {
   console.log(`   Mensagem: ${text.substring(0, 100)}...`);
   console.log('=====================================\n');
   
-  // Verificar se é do grupo configurado
-  if (TELEGRAM_GROUP_ID && chatId !== TELEGRAM_GROUP_ID) {
+  // Verificar se é de um dos grupos configurados
+  if (TELEGRAM_GROUP_IDS && !TELEGRAM_GROUP_IDS.includes(chatId)) {
     return;
   }
   

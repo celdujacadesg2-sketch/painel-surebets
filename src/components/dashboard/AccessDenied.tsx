@@ -1,13 +1,45 @@
 'use client';
 
+
 import { Lock, AlertTriangle } from 'lucide-react';
-import Link from 'next/link';
+import { useAuth } from '@/components/providers/AuthProvider';
+import { useState } from 'react';
 
 interface AccessDeniedProps {
   status: 'trial' | 'subscribed' | 'expired' | 'blocked' | 'admin';
 }
 
 export default function AccessDenied({ status }: AccessDeniedProps) {
+  const { user } = useAuth();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  async function handleCheckout() {
+    setError('');
+    setLoading(true);
+    try {
+      const res = await fetch('/api/paymaker/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: user?.name, email: user?.email }),
+      });
+      const data = await res.json();
+      if (!data.ok) throw new Error(data.error || 'Erro ao criar pagamento');
+      // Redirecionar para a URL de pagamento (PIX, cartão, etc)
+      // Tente encontrar a URL no payload retornado
+      const url = data.data?.payload?.payment_url || data.data?.payload?.pix_url || data.data?.payload?.url;
+      if (url) {
+        window.location.href = url;
+      } else {
+        setError('URL de pagamento não encontrada.');
+      }
+    } catch (e: any) {
+      setError(e.message || 'Erro ao criar pagamento');
+    } finally {
+      setLoading(false);
+    }
+  }
+
   if (status === 'blocked') {
     return (
       <div className="max-w-2xl mx-auto mt-12">
@@ -36,12 +68,15 @@ export default function AccessDenied({ status }: AccessDeniedProps) {
             ? 'Seu período de teste terminou. Para continuar acessando os sinais, faça sua assinatura.'
             : 'Seu acesso expirou. Renove sua assinatura para continuar.'}
         </p>
-        
         <div className="space-y-4">
-          <button className="w-full px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-lg transition">
-            Assinar Agora - R$ 99/mês
+          <button
+            className="w-full px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-lg transition disabled:opacity-60"
+            onClick={handleCheckout}
+            disabled={loading}
+          >
+            {loading ? 'Gerando pagamento...' : 'Assinar Agora - R$ 97/mês'}
           </button>
-          
+          {error && <p className="text-red-400 text-sm mt-2">{error}</p>}
           <p className="text-sm text-gray-400">
             Acesso ilimitado a todos os sinais em tempo real
           </p>

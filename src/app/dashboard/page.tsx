@@ -12,6 +12,32 @@ import { useSignals } from '@/hooks/useSignals';
 
 export default function DashboardPage() {
   const { user, accessStatus, loading } = useAuth();
+  const [payLoading, setPayLoading] = useState(false);
+  const [payError, setPayError] = useState('');
+  // Botão de Assinar/Renovar
+  async function handleCheckout() {
+    setPayError('');
+    setPayLoading(true);
+      try {
+        const res = await fetch('/api/paymaker/checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name: user?.name, email: user?.email }),
+        });
+        const data = await res.json();
+        if (!data.ok) throw new Error(data.error || 'Erro ao criar pagamento');
+        const url = data.data?.payload?.payment_url || data.data?.payload?.pix_url || data.data?.payload?.url;
+        if (url) {
+          window.location.href = url;
+        } else {
+          setPayError('URL de pagamento não encontrada.');
+        }
+      } catch (e: any) {
+        setPayError(e.message || 'Erro ao criar pagamento');
+      } finally {
+        setPayLoading(false);
+      }
+    }
   const router = useRouter();
   const { signals, loading: signalsLoading, refetch } = useSignals();
   const previousSignalsCount = useRef(signals.length);
@@ -223,6 +249,17 @@ export default function DashboardPage() {
   return (
     <DashboardLayout>
       <div className="space-y-6">
+        {/* Botão fixo de Assinar/Renovar */}
+        <div className="flex justify-end">
+          <button
+            className="px-6 py-2 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-lg transition disabled:opacity-60"
+            onClick={handleCheckout}
+            disabled={payLoading}
+          >
+            {payLoading ? 'Gerando pagamento...' : 'Assinar / Renovar - R$ 97/mês'}
+          </button>
+        </div>
+        {payError && <div className="text-right text-red-400 text-sm mt-1">{payError}</div>}
         {/* Aviso de Popup - Mais Visível */}
         <div className="bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border-2 border-yellow-400 rounded-xl p-4 shadow-lg">
           <div className="flex items-start gap-3">

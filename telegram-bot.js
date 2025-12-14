@@ -5,8 +5,20 @@ const axios = require('axios');
 // Configurações
 const TELEGRAM_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const TELEGRAM_GROUP_ID = process.env.TELEGRAM_GROUP_ID; // ID do grupo que envia sinais
-const API_URL = process.env.API_URL || 'http://localhost:3002/api/signals/create';
-const API_SECRET = process.env.API_SECRET || 'sua-chave-api-secreta-para-enviar-sinais';
+
+const API_URL = process.env.API_URL;
+const API_SECRET = process.env.API_SECRET;
+
+if (process.env.NODE_ENV === 'production') {
+  if (!API_URL) {
+    console.error('❌ [FATAL] API_URL não definida em produção. Configure no .env.bot.production');
+    process.exit(1);
+  }
+  if (!API_SECRET) {
+    console.error('❌ [FATAL] API_SECRET não definida em produção. Configure no .env.bot.production');
+    process.exit(1);
+  }
+}
 
 if (!TELEGRAM_TOKEN) {
   console.error('❌ TELEGRAM_BOT_TOKEN não configurado no .env');

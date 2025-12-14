@@ -7,8 +7,20 @@ const TELEGRAM_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const TELEGRAM_GROUP_IDS = process.env.TELEGRAM_GROUP_ID
   ? process.env.TELEGRAM_GROUP_ID.split(',').map(id => id.trim())
   : null;
-const API_URL = process.env.API_URL || 'http://localhost:3002';
-const API_SECRET = process.env.API_SECRET || 'sua-chave-api-secreta-para-enviar-sinais';
+
+const API_URL = process.env.API_URL;
+const API_SECRET = process.env.API_SECRET;
+
+if (process.env.NODE_ENV === 'production') {
+  if (!API_URL) {
+    console.error('❌ [FATAL] API_URL não definida em produção. Configure no .env.bot.production');
+    process.exit(1);
+  }
+  if (!API_SECRET) {
+    console.error('❌ [FATAL] API_SECRET não definida em produção. Configure no .env.bot.production');
+    process.exit(1);
+  }
+}
 
 if (!TELEGRAM_TOKEN) {
   console.error('❌ TELEGRAM_BOT_TOKEN não configurado no .env');
@@ -218,10 +230,12 @@ function parseSinal(text, entities = []) {
 // Enviar sinal para API
 async function enviarSinal(signal) {
   try {
-    console.log('✨ Enviando sinal para API...');
-    
-    await axios.post(
-      `${API_URL}/api/signals/create`,
+    // Se API_URL já contém '/api/', não concatenar novamente
+    const url = API_URL.includes('/api/') ? API_URL : `${API_URL}/api/signals/create`;
+    console.log('🔗 Enviando para URL:', url);
+
+    const response = await axios.post(
+      url,
       {
         sport: signal.sport,
         event: signal.event,
@@ -239,10 +253,28 @@ async function enviarSinal(signal) {
       }
     );
 
-    console.log('✅ Sinal enviado com sucesso!');
-    return true;
+    // Log status e body
+    console.log('📥 Status:', response.status);
+    console.log('📥 Body:', response.data);
+
+    // Detectar HTML na resposta
+    if (typeof response.data === 'string' && response.data.includes('<html')) {
+      throw new Error('Endpoint errado: recebeu HTML');
+    }
+
+    if (response.data && (response.data.success || response.data.ok)) {
+      console.log('✅ Sinal enviado com sucesso!');
+      return true;
+    } else {
+      console.error('❌ Erro na resposta:', response.data);
+      return false;
+    }
   } catch (error) {
-    console.error('❌ Erro ao enviar sinal:', error.response?.data || error.message);
+    if (error.response && typeof error.response.data === 'string' && error.response.data.includes('<html')) {
+      console.error('❌ Endpoint errado: recebeu HTML');
+    } else {
+      console.error('❌ Erro ao enviar sinal:', error.response?.data || error.message);
+    }
     return false;
   }
 }

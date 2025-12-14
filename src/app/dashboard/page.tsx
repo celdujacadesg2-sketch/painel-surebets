@@ -250,17 +250,7 @@ export default function DashboardPage() {
   return (
     <DashboardLayout>
       <div className="space-y-6">
-        {/* Botão fixo de Assinar/Renovar */}
-        <div className="flex flex-col items-end gap-2">
-          <button
-            className="px-6 py-2 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-lg transition disabled:opacity-60"
-            onClick={handleCheckout}
-            disabled={payLoading}
-          >
-            {payLoading ? 'Gerando pagamento...' : 'Assinar / Renovar - R$ 97/mês'}
-          </button>
-          <BotaoRenovarWhatsapp />
-        </div>
+        {/* Botões de Assinar/Renovar removidos conforme solicitado */}
         {payError && <div className="text-right text-red-400 text-sm mt-1">{payError}</div>}
         {/* Aviso de Popup - Mais Visível */}
         <div className="bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border-2 border-yellow-400 rounded-xl p-4 shadow-lg">

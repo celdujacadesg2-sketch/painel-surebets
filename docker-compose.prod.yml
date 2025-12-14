@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: painel-surebets-app
+    env_file:
+      - .env.production
+    ports:
+      - "3002:3002"
+    restart: always
+    depends_on: []
+    command: >
+      sh -c "
+        npx prisma generate &&
+        npx prisma migrate deploy &&
+        node server.js
+      "
+
+  bot:
+    build:
+      context: .
+      dockerfile: Dockerfile.bot
+    container_name: painel-surebets-bot
+    env_file:
+      - .env.bot.production
+    depends_on:
+      - app
+    restart: always
+    command: node telegram-bot-new.js

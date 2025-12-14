@@ -9,12 +9,20 @@ export function initializeWebSocket(server: HTTPServer) {
     return io;
   }
 
+  let origin;
+  if (process.env.NODE_ENV === 'production') {
+    if (!process.env.NEXT_PUBLIC_APP_URL) {
+      console.error('❌ [FATAL] NEXT_PUBLIC_APP_URL não definida em produção. Configure no .env.production');
+      process.exit(1);
+    }
+    origin = process.env.NEXT_PUBLIC_APP_URL;
+  } else {
+    origin = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+  }
   io = new SocketIOServer(server, {
     path: '/api/socket',
     cors: {
-      origin: process.env.NODE_ENV === 'production' 
-        ? process.env.NEXT_PUBLIC_APP_URL 
-        : 'http://localhost:3000',
+      origin,
       credentials: true,
     },
   });

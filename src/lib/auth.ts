@@ -1,6 +1,11 @@
 import jwt from 'jsonwebtoken';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
+const JWT_SECRET = process.env.JWT_SECRET;
+
+if (process.env.NODE_ENV === 'production' && !JWT_SECRET) {
+  console.error('❌ [FATAL] JWT_SECRET não definida em produção. Configure no .env.production');
+  process.exit(1);
+}
 
 export interface JWTPayload {
   userId: string;

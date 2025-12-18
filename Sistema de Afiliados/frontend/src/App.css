@@ -1,0 +1,38 @@
+html, body, #root {
+  font-family: 'Roboto', 'Open Sans', Arial, sans-serif;
+  background: linear-gradient(135deg, #18191a 0%, #232526 100%);
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  height: 100vh;
+  box-sizing: border-box;
+}
+nav {
+  background: #222;
+  color: #fff;
+  padding: 10px;
+}
+nav a {
+  color: #fff;
+  margin-right: 10px;
+  text-decoration: none;
+}
+nav a:hover {
+  text-decoration: underline;
+}
+
+input, button {
+  margin: 5px;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+button {
+  background: #222;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+button:hover {
+  background: #444;
+}

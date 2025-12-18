@@ -1,0 +1,46 @@
+body {
+  background: #f8f8f8;
+  color: #222;
+}
+nav {
+  background: #222;
+  color: #fff;
+}
+nav a {
+  color: #fff;
+}
+.painel-home {
+  background: #f8f8f8;
+}
+.painel-card {
+  background: #fff;
+  color: #222;
+  box-shadow: 0 2px 8px #0001;
+}
+.painel-btn {
+  background: #222;
+  color: #fff;
+}
+.painel-btn:hover {
+  background: #444;
+}
+.painel-admin, .painel-afiliado {
+  background: #fff;
+  color: #222;
+  box-shadow: 0 2px 8px #0001;
+}
+.admin-relatorio, .afiliado-grafico {
+  background: #f8f8f8;
+  color: #222;
+}
+input, button {
+  background: #fff;
+  color: #222;
+  border: 1px solid #ccc;
+}
+button {
+  background: #222;
+}
+button:hover {
+  background: #444;
+}

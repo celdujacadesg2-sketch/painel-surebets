@@ -1,0 +1,35 @@
+.painel-admin {
+  max-width: 700px;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px #0001;
+  padding: 32px 40px;
+}
+.admin-lista ul {
+  list-style: none;
+  padding: 0;
+}
+.admin-lista li {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.admin-lista button {
+  background: #222;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 14px;
+  cursor: pointer;
+}
+.admin-lista button:hover {
+  background: #444;
+}
+.admin-relatorio {
+  margin-top: 30px;
+  background: #f8f8f8;
+  border-radius: 8px;
+  padding: 18px 24px;
+}

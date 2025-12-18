@@ -1,0 +1,22 @@
+.painel-afiliado {
+  max-width: 700px;
+  margin: 40px auto;
+  background: #18191a;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px #00ffb0a0;
+  padding: 40px 48px;
+  color: #f5f6fa;
+}
+.afiliado-info {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.afiliado-grafico {
+  margin-top: 24px;
+  background: #232526;
+  border-radius: 10px;
+  padding: 22px 30px;
+  box-shadow: 0 2px 12px #00ffb033;
+}

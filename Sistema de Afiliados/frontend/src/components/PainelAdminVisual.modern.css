@@ -1,0 +1,246 @@
+.painel-admin {
+  max-width: 900px;
+  margin: 0 auto;
+  background: rgba(24,25,26,0.97);
+  color: #f5f6fa;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px #00ffb0a0;
+  padding: 48px 0 48px 0;
+  font-family: 'Roboto', 'Open Sans', Arial, sans-serif;
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(24,25,26,0.98) 0%, rgba(35,37,38,0.98) 100%);
+}
+
+.admin-cards {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 36px;
+  width: 100%;
+}
+
+.admin-card {
+  background: #18191a;
+  border-radius: 16px;
+  box-shadow: 0 0 32px #00ffb088;
+  padding: 36px 48px;
+  min-width: 320px;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.admin-card-title {
+  font-weight: 700;
+  font-size: 1.35rem;
+  color: #00ffb0;
+  margin-bottom: 10px;
+  letter-spacing: 0.5px;
+}
+
+.admin-card-desc {
+  color: #fff;
+  font-weight: 500;
+  margin-bottom: 24px;
+  opacity: 0.95;
+  text-align: center;
+}
+
+.admin-btn {
+  background: #00ffb0;
+  color: #18191a;
+  font-weight: 700;
+  font-size: 1.13rem;
+  padding: 16px 36px;
+  border-radius: 12px;
+  border: 2px solid #00ffb0;
+  box-shadow: 0 0 16px #00ffb0cc;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s, border 0.18s;
+}
+.admin-btn:hover {
+  background: #00c97b;
+  color: #fff;
+  border: 2px solid #00c97b;
+}
+.painel-admin {
+  max-width: 900px;
+  margin: 0 auto;
+  background: #18191a !important;
+  color: #f5f6fa;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px #00ffb0a0;
+  padding: 40px 48px;
+  font-family: 'Roboto', 'Open Sans', Arial, sans-serif;
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #18191a 0%, #232526 100%) !important;
+}
+.relatorio-card {
+  background: #18191a !important;
+  border-radius: 18px;
+  box-shadow: 0 0 32px #00ffb088;
+  padding: 36px 32px;
+  margin: 0 auto;
+  margin-top: 32px;
+  max-width: 340px;
+  color: #e0fff7;
+  font-size: 1.13rem;
+  border: 2px solid #00ffb0;
+  transition: box-shadow 0.2s;
+}
+/* Corrige fundo do painel admin e do card de relatório para escuro translúcido */
+.painel-admin {
+  max-width: 900px;
+  margin: 0 auto;
+  background: rgba(24,25,26,0.97) !important;
+  color: #f5f6fa;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px #00ffb0a0;
+  padding: 40px 48px;
+  font-family: 'Roboto', 'Open Sans', Arial, sans-serif;
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(24,25,26,0.98) 0%, rgba(35,37,38,0.98) 100%) !important;
+}
+
+.relatorio-card {
+  background: rgba(24,25,26,0.93) !important;
+  border-radius: 18px;
+  box-shadow: 0 4px 32px #00ffb088;
+  padding: 32px 36px;
+  margin: 0 auto;
+  margin-top: 32px;
+  max-width: 340px;
+  color: #e0fff7;
+  font-size: 1.13rem;
+  border: 1.5px solid #00ffb055;
+  transition: box-shadow 0.2s;
+}
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
+
+.afiliado-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 18px;
+  color: #fff;
+  font-size: 1.13rem;
+  background: rgba(0,255,176,0.08);
+  border-radius: 10px;
+  padding: 10px 18px;
+  box-shadow: 0 2px 12px #00ffb044;
+  transition: background 0.2s;
+}
+.afiliado-item:hover {
+  background: rgba(0,255,176,0.18);
+}
+  font-family: 'Roboto', 'Open Sans', Arial, sans-serif;
+.afiliado-nome {
+  font-weight: 700;
+  color: #00ffb0;
+  font-size: 1.15rem;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 8px #00ffb055;
+}
+  justify-content: center;
+.afiliado-email {
+  color: #b0ffe0;
+  font-size: 1.01rem;
+  opacity: 0.92;
+}
+  font-weight: 700;
+.relatorio-card {
+  background: linear-gradient(135deg, #232526 60%, #18191a 100%);
+  border-radius: 18px;
+  box-shadow: 0 4px 32px #00ffb088;
+  padding: 32px 36px;
+  margin: 0 auto;
+  margin-top: 32px;
+  max-width: 340px;
+  color: #e0fff7;
+  font-size: 1.13rem;
+  border: 1.5px solid #00ffb055;
+  transition: box-shadow 0.2s;
+}
+.relatorio-card:hover {
+  box-shadow: 0 8px 40px #00ffb0cc;
+}
+  list-style: none;
+.relatorio-titulo {
+  color: #00ffb0;
+  font-weight: 700;
+  font-size: 1.18rem;
+  margin-bottom: 18px;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 8px #00ffb055;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.admin-lista {
+  list-style: none;
+  padding: 0;
+}
+.admin-lista li {
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 1.1rem;
+}
+.admin-lista button {
+  background: #00ffb0;
+  color: #18191a;
+  border: none;
+  border-radius: 30px;
+  padding: 10px 26px;
+  font-size: 1rem;
+  font-weight: bold;
+  box-shadow: 0 2px 12px #00ffb055;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, transform 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.admin-lista button:hover {
+  background: #00c97b;
+  color: #fff;
+  transform: translateY(-2px) scale(1.04);
+}
+.admin-relatorio {
+  margin-top: 32px;
+  background: #232526;
+  border-radius: 10px;
+  padding: 22px 30px;
+  box-shadow: 0 2px 12px #00ffb033;
+}
+.admin-relatorio h4 {
+  color: #00ffb0;
+  font-size: 1.15rem;
+  margin-bottom: 10px;
+}
+@media (max-width: 600px) {
+  .painel-admin {
+    padding: 18px 6vw;
+  }
+  .admin-lista li {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+}

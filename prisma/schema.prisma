@@ -26,6 +26,7 @@ model User {
   updatedAt DateTime @updatedAt
   
   savedBets SavedBet[]
+  payments  Payment[]
   
   @@index([email])
 }
@@ -73,4 +74,35 @@ model SavedBet {
   @@index([createdAt])
   @@index([status])
   @@index([settledAt])
+}
+
+model Payment {
+  id              String   @id @default(uuid())
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Payment details
+  amount          Float
+  currency        String   @default("BRL")
+  status          String   @default("pending") // pending, completed, failed, cancelled
+  
+  // Gateway information
+  gateway         String   // pagbank, mercadopago, stripe, etc
+  gatewayOrderId  String?  // ID do pedido no gateway
+  gatewayPaymentId String? @unique // ID único do pagamento no gateway
+  
+  // Subscription details
+  subscriptionDays Int     @default(30) // Dias de acesso que esse pagamento concede
+  appliedAt       DateTime? // Quando a assinatura foi renovada
+  
+  // Metadata
+  metadata        String?  // JSON com dados adicionais do gateway
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  @@index([userId])
+  @@index([status])
+  @@index([gatewayPaymentId])
+  @@index([createdAt])
 }

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { requireAdmin } from '@/lib/middleware';
+import { calculateNewSubscriptionEnd } from '@/lib/subscription';
 
 export async function POST(
   request: NextRequest,
@@ -31,12 +32,7 @@ export async function POST(
     }
 
     // Extend or create subscription
-    const now = new Date();
-    const currentEnd = user.subscriptionEndsAt && user.subscriptionEndsAt > now 
-      ? user.subscriptionEndsAt 
-      : now;
-
-    const newSubscriptionEnd = new Date(currentEnd.getTime() + days * 24 * 60 * 60 * 1000);
+    const newSubscriptionEnd = calculateNewSubscriptionEnd(user.subscriptionEndsAt, days);
 
     const updatedUser = await prisma.user.update({
       where: { id },
